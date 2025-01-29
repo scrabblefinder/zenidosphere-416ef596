@@ -13,6 +13,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 interface Domain {
   id: string;
@@ -21,12 +39,26 @@ interface Domain {
   status: string;
 }
 
+const formSchema = z.object({
+  name: z.string().min(1, "Domain name is required"),
+  price: z.string().min(1, "Price is required").transform((val) => parseFloat(val)),
+});
+
 const AdminDomains = () => {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingDomain, setEditingDomain] = useState<Domain | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      price: "",
+    },
+  });
 
   useEffect(() => {
     checkUser();
@@ -87,6 +119,36 @@ const AdminDomains = () => {
     }
   };
 
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { error } = await supabase
+        .from("domains")
+        .insert([
+          {
+            name: values.name,
+            price: values.price,
+            status: "available",
+          },
+        ]);
+
+      if (error) throw error;
+
+      form.reset();
+      setIsDialogOpen(false);
+      fetchDomains();
+      toast({
+        title: "Success",
+        description: "Domain added successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zenDark">
       <Navigation />
@@ -94,12 +156,57 @@ const AdminDomains = () => {
         <div className="bg-white/10 rounded-lg p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-white">My Domains</h1>
-            <Button
-              onClick={() => navigate("/admin/offers")}
-              className="bg-[#126e82] hover:bg-[#126e82]/80"
-            >
-              View Offers
-            </Button>
+            <div className="space-x-4">
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-[#126e82] hover:bg-[#126e82]/80">
+                    Add Domain
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Add New Domain</DialogTitle>
+                  </DialogHeader>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Domain Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="price"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Price</FormLabel>
+                            <FormControl>
+                              <Input type="number" placeholder="10000" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button type="submit" className="w-full">Add Domain</Button>
+                    </form>
+                  </Form>
+                </DialogContent>
+              </Dialog>
+              <Button
+                onClick={() => navigate("/admin/offers")}
+                className="bg-[#126e82] hover:bg-[#126e82]/80"
+              >
+                View Offers
+              </Button>
+            </div>
           </div>
           <Table>
             <TableHeader>
