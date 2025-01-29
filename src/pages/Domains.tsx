@@ -5,7 +5,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { CheckCircle } from "lucide-react";
 
 interface Domain {
   id: string;
@@ -28,7 +27,7 @@ const Domains = () => {
       const { data, error } = await supabase
         .from("domains")
         .select("*")
-        .order("status", { ascending: false }) // This will put 'sold' after 'available'
+        .order("status", { ascending: true }) // This will put 'available' before 'sold'
         .order("name");
 
       if (error) throw error;
@@ -69,13 +68,11 @@ const Domains = () => {
               {domains.map((domain) => (
                 <Card 
                   key={domain.id}
-                  className="bg-domainCard border-domainCardLight/20 hover:border-domainCardLight transition-colors duration-300 relative"
-                >
-                  {domain.status === 'sold' && (
-                    <div className="absolute -top-3 -right-3 bg-zenDark rounded-full p-1">
-                      <CheckCircle className="w-8 h-8 text-green-500" />
-                    </div>
+                  className={cn(
+                    "bg-domainCard border-domainCardLight/20 hover:border-domainCardLight transition-colors duration-300",
+                    domain.status === 'sold' && "opacity-50"
                   )}
+                >
                   <CardContent className="p-6 flex flex-col items-center justify-between h-full">
                     <div className="text-2xl font-bold text-domainCardLight mb-4">{domain.name}</div>
                     <div className="text-xl text-domainCardLight font-semibold mb-4">
