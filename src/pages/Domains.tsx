@@ -61,7 +61,7 @@ const Domains = () => {
             <Card className="bg-domainCard/50 border-domainCardLight/20 mb-8">
               <CardContent className="p-6">
                 <p className="text-domainCardLight leading-relaxed animate-slideUp">
-                  Three-letter .com domain names (LLL.com) are highly valuable digital assets. With only 17,576 possible combinations, these domains are inherently scarce and sought after. Their brevity makes them perfect for building memorable brands.
+                  Premium domain names are highly valuable digital assets that can significantly impact a brand's online presence, credibility, and long-term success. These domains are typically short, memorable, keyword-rich, and often come with a strong history of trust and authority. Investing in a premium domain name gives businesses an instant competitive edge by making their brand easier to find, recall, and trust.
                 </p>
               </CardContent>
             </Card>
