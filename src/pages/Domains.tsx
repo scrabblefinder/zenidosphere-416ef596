@@ -40,9 +40,9 @@ const Domains = () => {
             <h1 className="text-4xl font-bold text-white mb-8 animate-fadeIn">
               Premium Three Letter Domains For Sale
             </h1>
-            <Card className="bg-zinc-900/50 border-zinc-800 mb-8">
+            <Card className="bg-domainCard/50 border-domainCardLight/20 mb-8">
               <CardContent className="p-6">
-                <p className="text-gray-300 leading-relaxed animate-slideUp">
+                <p className="text-domainCardLight leading-relaxed animate-slideUp">
                   Three-letter .com domain names (LLL.com) are highly valuable digital assets. With only 17,576 possible combinations, these domains are inherently scarce and sought after. Their brevity makes them perfect for building memorable brands.
                 </p>
               </CardContent>
@@ -51,14 +51,14 @@ const Domains = () => {
               {domains.map((domain) => (
                 <Card 
                   key={domain.name}
-                  className="bg-zinc-900/50 border-zinc-800 hover:border-zenPurple transition-colors duration-300"
+                  className="bg-domainCard border-domainCardLight/20 hover:border-domainCardLight transition-colors duration-300"
                 >
                   <CardContent className="p-6 flex flex-col items-center justify-between h-full">
-                    <div className="text-2xl font-bold text-white mb-4">{domain.name}</div>
-                    <div className="text-xl text-zenPurple font-semibold mb-4">{domain.price}</div>
+                    <div className="text-2xl font-bold text-domainCardLight mb-4">{domain.name}</div>
+                    <div className="text-xl text-domainCardLight font-semibold mb-4">{domain.price}</div>
                     <Button
                       onClick={() => handleMakeOffer(domain.name)}
-                      className="w-full bg-zenPurple hover:bg-zenPurple/80 text-white"
+                      className="w-full bg-domainCardLight hover:bg-domainCardLight/80 text-domainCard"
                     >
                       Make Offer
                     </Button>

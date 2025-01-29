@@ -49,6 +49,8 @@ export default {
         },
         zenDark: "#1A1F2C",
         zenPurple: "#9b87f5",
+        domainCard: "#296e83",
+        domainCardLight: "#d9e3e7",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
