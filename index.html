@@ -32,7 +32,8 @@
     </style>
   </head>
   <body>
-    <div class="min-h-screen flex flex-col">
+    <div id="root">
+      <div class="min-h-screen flex flex-col">
       <!-- Navigation -->
       <nav class="fixed w-full z-50 transition-all duration-300 py-6" id="mainNav">
         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -139,7 +140,7 @@
         </div>
       </section>
 
-      <!-- Footer -->
+        <!-- Footer -->
       <footer class="bg-zenDark/50 py-16 mt-auto">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -197,12 +198,12 @@
           </div>
         </div>
       </footer>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script>
-      // Navigation scroll effect
       window.addEventListener('scroll', () => {
         const nav = document.getElementById('mainNav');
         if (window.scrollY > 50) {
