@@ -15,9 +15,9 @@ const Navigation = () => {
                 Domains
               </Button>
             </Link>
-            <Link to="/login">
+            <Link to="/admin">
               <Button variant="ghost" className="text-white hover:text-gray-300">
-                Admin Login
+                Admin
               </Button>
             </Link>
           </div>
