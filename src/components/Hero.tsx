@@ -4,6 +4,11 @@ const Hero = () => {
   return (
     <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
+        <img
+          src="/lovable-uploads/empirestate.jpg"
+          alt="Empire State Building"
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
       
