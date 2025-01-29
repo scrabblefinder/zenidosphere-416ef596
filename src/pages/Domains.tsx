@@ -56,6 +56,9 @@ const Domains = () => {
                     ))}
                   </TableBody>
                 </Table>
+                <div className="mt-8 text-center text-gray-400 text-sm">
+                  Powered by: <a href="https://zenullari.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Zenullari.com</a>
+                </div>
               </CardContent>
             </Card>
           </div>
