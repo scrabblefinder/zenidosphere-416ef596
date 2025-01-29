@@ -9,7 +9,71 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      domains: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          price: number
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          price: number
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          price?: number
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      offers: {
+        Row: {
+          amount: number
+          created_at: string
+          domain_id: string | null
+          email: string
+          id: string
+          message: string | null
+          status: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          domain_id?: string | null
+          email: string
+          id?: string
+          message?: string | null
+          status?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          domain_id?: string | null
+          email?: string
+          id?: string
+          message?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offers_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "domains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

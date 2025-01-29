@@ -4,6 +4,9 @@ import Hero from "./components/Hero";
 import Welcome from "./components/Welcome";
 import Footer from "./components/Footer";
 import Domains from "./pages/Domains";
+import Auth from "./pages/Auth";
+import AdminDomains from "./pages/admin/AdminDomains";
+import AdminOffers from "./pages/admin/AdminOffers";
 
 const App = () => {
   return (
@@ -21,6 +24,9 @@ const App = () => {
           }
         />
         <Route path="/domains" element={<Domains />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/admin/domains" element={<AdminDomains />} />
+        <Route path="/admin/offers" element={<AdminOffers />} />
       </Routes>
     </Router>
   );
