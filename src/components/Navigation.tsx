@@ -1,8 +1,26 @@
 import { Phone } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Navigation = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed w-full z-50 transition-all duration-300 py-6" id="mainNav">
+    <nav 
+      className={`fixed w-full z-50 transition-all duration-300 py-6 ${
+        isScrolled ? 'bg-[#126e82]' : 'bg-transparent'
+      }`} 
+      id="mainNav"
+    >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <a href="#" className="text-white text-2xl font-bold">
           ZENULLARI
