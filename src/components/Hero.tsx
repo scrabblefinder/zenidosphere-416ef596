@@ -5,7 +5,7 @@ const Hero = () => {
     <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="/lovable-uploads/empirestate.jpg"
+          src="https://www.zenullari.com/wp-content/uploads/2024/11/empirestate-scaled.jpg"
           alt="Empire State Building"
           className="w-full h-full object-cover"
         />
@@ -28,10 +28,7 @@ const Hero = () => {
             professionals dedicated to helping you secure the perfect domain name for
             your needs
           </p>
-          <a
-            href="#contact"
-            className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-sm hover:bg-white/20 transition-colors duration-300"
-          >
+          <a href="#contact" className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-sm hover:bg-white/20 transition-colors duration-300">
             <span>GET STARTED</span>
             <ArrowRight className="h-4 w-4" />
           </a>
