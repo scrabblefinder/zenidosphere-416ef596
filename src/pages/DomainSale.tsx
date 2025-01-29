@@ -75,7 +75,6 @@ const DomainSale = () => {
               {/* Right Column - Price and Actions */}
               <div className="text-center md:text-right">
                 <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg mb-8">
-                  <p className="text-2xl text-white/80 mb-2">Price</p>
                   <p className="text-5xl font-bold text-white mb-8">$100,000</p>
                   
                   <div className="space-y-4">
