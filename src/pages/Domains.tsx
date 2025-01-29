@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const domains = [
   "UGR.com", "BJA.com", "UYR.com", "XFK.com", "WXA.com",
@@ -34,7 +35,18 @@ const Domains = () => {
                   <TableBody>
                     {domains.map((domain) => (
                       <TableRow key={domain}>
-                        <TableCell className="text-white font-medium">{domain}</TableCell>
+                        <TableCell className="text-white font-medium">
+                          {domain === "UGR.com" ? (
+                            <Link 
+                              to="/domains/ugr" 
+                              className="text-zenPurple hover:text-zenPurple/80 transition-colors"
+                            >
+                              {domain}
+                            </Link>
+                          ) : (
+                            domain
+                          )}
+                        </TableCell>
                         <TableCell className="text-white text-right">
                           <span className="px-2 py-1 bg-[#126e82] rounded-full text-sm">
                             Available
