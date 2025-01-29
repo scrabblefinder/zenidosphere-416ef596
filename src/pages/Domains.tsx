@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,21 +30,26 @@ const Domains = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
     fetchDomains();
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
   const fetchDomains = async () => {
     try {
-      const { data: totalCount } = await supabase
+      let query = supabase
         .from("domains")
-        .select("id", { count: "exact" });
+        .select("*");
 
-      const { data, error } = await supabase
-        .from("domains")
-        .select("*")
+      if (searchQuery) {
+        query = query.ilike('name', `%${searchQuery}%`);
+      }
+
+      const { data: totalCount } = await query;
+
+      const { data, error } = await query
         .order("status", { ascending: true })
         .order("name")
         .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1);
@@ -72,6 +78,11 @@ const Domains = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
   return (
     <div className="min-h-screen bg-zenDark flex flex-col">
       <Navigation />
@@ -88,6 +99,15 @@ const Domains = () => {
                 </p>
               </CardContent>
             </Card>
+            <div className="mb-8">
+              <Input
+                type="search"
+                placeholder="Search domains..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="max-w-md bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
               {domains.map((domain) => (
                 <Card 
