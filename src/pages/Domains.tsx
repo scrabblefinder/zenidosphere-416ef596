@@ -1,11 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const Domains = () => {
   return (
-    <div className="min-h-screen bg-zenDark">
+    <div className="min-h-screen bg-zenDark flex flex-col">
       <Navigation />
-      <div className="pt-32 pb-16">
+      <div className="pt-32 pb-16 flex-grow">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl font-bold text-white mb-8 animate-fadeIn">
@@ -21,6 +22,7 @@ const Domains = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
