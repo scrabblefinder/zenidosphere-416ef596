@@ -37,6 +37,33 @@ const Auth = () => {
     }
   };
 
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Account created successfully! You can now log in.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zenDark">
       <Navigation />
@@ -70,6 +97,14 @@ const Auth = () => {
               disabled={loading}
             >
               {loading ? "Loading..." : "Login"}
+            </Button>
+            <Button
+              type="button"
+              onClick={handleSignUp}
+              className="w-full bg-white/10 hover:bg-white/20 text-white"
+              disabled={loading}
+            >
+              Create Account
             </Button>
           </form>
         </div>
