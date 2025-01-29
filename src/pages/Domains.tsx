@@ -1,34 +1,51 @@
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
-interface DomainCard {
+interface Domain {
+  id: string;
   name: string;
-  price: string;
+  price: number;
+  status: string;
 }
 
-const domains: DomainCard[] = [
-  { name: "UGR.com", price: "$100,000" },
-  { name: "BJA.com", price: "$95,000" },
-  { name: "UYR.com", price: "$85,000" },
-  { name: "XFK.com", price: "$92,000" },
-  { name: "WXA.com", price: "$88,000" },
-  { name: "VYC.com", price: "$97,000" },
-  { name: "IJH.com", price: "$94,000" },
-  { name: "HXV.com", price: "$89,000" },
-  { name: "UYS.com", price: "$93,000" },
-  { name: "YFR.com", price: "$86,000" },
-  { name: "HZE.com", price: "$91,000" },
-  { name: "ZDV.com", price: "$87,000" },
-  { name: "OJV.com", price: "$96,000" },
-  { name: "UFJ.com", price: "$90,000" },
-  { name: "XWE.com", price: "$98,000" },
-];
-
 const Domains = () => {
-  const handleMakeOffer = (domain: string) => {
-    window.location.href = `mailto:info@example.com?subject=Offer for ${domain}`;
+  const [domains, setDomains] = useState<Domain[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchDomains();
+  }, []);
+
+  const fetchDomains = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("domains")
+        .select("*")
+        .eq("status", "available")
+        .order("name");
+
+      if (error) throw error;
+
+      setDomains(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMakeOffer = (domain: Domain) => {
+    window.location.href = `mailto:info@zenullari.com?subject=Offer for ${domain.name}`;
   };
 
   return (
@@ -50,14 +67,16 @@ const Domains = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {domains.map((domain) => (
                 <Card 
-                  key={domain.name}
+                  key={domain.id}
                   className="bg-domainCard border-domainCardLight/20 hover:border-domainCardLight transition-colors duration-300"
                 >
                   <CardContent className="p-6 flex flex-col items-center justify-between h-full">
                     <div className="text-2xl font-bold text-domainCardLight mb-4">{domain.name}</div>
-                    <div className="text-xl text-domainCardLight font-semibold mb-4">{domain.price}</div>
+                    <div className="text-xl text-domainCardLight font-semibold mb-4">
+                      ${domain.price.toLocaleString()}
+                    </div>
                     <Button
-                      onClick={() => handleMakeOffer(domain.name)}
+                      onClick={() => handleMakeOffer(domain)}
                       className="w-full bg-domainCardLight hover:bg-domainCardLight/80 text-domainCard"
                     >
                       Make Offer
