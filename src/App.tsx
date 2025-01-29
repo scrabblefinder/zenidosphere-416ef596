@@ -27,7 +27,9 @@ const App = () => {
           path="/domains" 
           element={
             <div className="min-h-screen flex flex-col bg-zenDark">
+              <Navigation />
               <Domains />
+              <Footer />
             </div>
           } 
         />
