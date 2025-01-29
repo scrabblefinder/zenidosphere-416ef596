@@ -41,7 +41,7 @@ interface Domain {
 
 const formSchema = z.object({
   name: z.string().min(1, "Domain name is required"),
-  price: z.string().min(1, "Price is required").transform((val) => parseFloat(val)),
+  price: z.coerce.number().min(0, "Price must be a positive number"),
 });
 
 const AdminDomains = () => {
@@ -56,7 +56,7 @@ const AdminDomains = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      price: "",
+      price: 0,
     },
   });
 
@@ -97,7 +97,7 @@ const AdminDomains = () => {
       const { error } = await supabase
         .from("domains")
         .update({
-          price: domain.price,
+          price: Number(domain.price),
           status: domain.status,
         })
         .eq("id", domain.id);
@@ -126,7 +126,7 @@ const AdminDomains = () => {
         .insert([
           {
             name: values.name,
-            price: values.price,
+            price: Number(values.price),
             status: "available",
           },
         ]);
@@ -189,7 +189,12 @@ const AdminDomains = () => {
                           <FormItem>
                             <FormLabel>Price</FormLabel>
                             <FormControl>
-                              <Input type="number" placeholder="10000" {...field} />
+                              <Input 
+                                type="number" 
+                                placeholder="10000" 
+                                {...field}
+                                onChange={(e) => field.onChange(Number(e.target.value))}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -229,7 +234,7 @@ const AdminDomains = () => {
                         onChange={(e) =>
                           setEditingDomain({
                             ...editingDomain,
-                            price: parseFloat(e.target.value),
+                            price: Number(e.target.value),
                           })
                         }
                         className="bg-white/5 border-white/10 text-white w-32"
