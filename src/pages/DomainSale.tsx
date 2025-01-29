@@ -99,6 +99,21 @@ const DomainSale = () => {
                 </div>
               </div>
             </div>
+
+            {/* Powered by Zenullari.com */}
+            <div className="text-center mt-12">
+              <p className="text-white/60">
+                Powered by:{" "}
+                <a 
+                  href="https://zenullari.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-white hover:text-[#F97316] transition-colors"
+                >
+                  Zenullari.com
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
