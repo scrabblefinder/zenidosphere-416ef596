@@ -8,6 +8,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -31,11 +38,14 @@ const Domains = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [extension, setExtension] = useState<string>("");
+  const [priceRange, setPriceRange] = useState<string>("");
+  const [lengthRange, setLengthRange] = useState<string>("");
   const { toast } = useToast();
 
   useEffect(() => {
     fetchDomains();
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, extension, priceRange, lengthRange]);
 
   const fetchDomains = async () => {
     try {
@@ -45,6 +55,22 @@ const Domains = () => {
 
       if (searchQuery) {
         query = query.ilike('name', `%${searchQuery}%`);
+      }
+
+      if (extension) {
+        query = query.ilike('name', `%${extension}`);
+      }
+
+      if (priceRange) {
+        const [min, max] = priceRange.split('-').map(Number);
+        query = query.gte('price', min).lte('price', max);
+      }
+
+      if (lengthRange) {
+        const [min, max] = lengthRange.split('-').map(Number);
+        // Using raw SQL function length() to filter by domain name length
+        query = query.filter('length(name)', 'gte', min)
+                    .filter('length(name)', 'lte', max);
       }
 
       const { data: totalCount } = await query;
@@ -80,7 +106,7 @@ const Domains = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
 
   return (
@@ -99,15 +125,58 @@ const Domains = () => {
                 </p>
               </CardContent>
             </Card>
-            <div className="mb-8">
+            
+            <div className="max-w-4xl mx-auto space-y-6 mb-12">
               <Input
                 type="search"
                 placeholder="Search domains..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className="max-w-md bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                className="w-full h-12 text-lg bg-white/10 border-white/20 text-white placeholder:text-white/50"
               />
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Select value={extension} onValueChange={setExtension}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Domain Extension" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All Extensions</SelectItem>
+                    <SelectItem value=".com">.com</SelectItem>
+                    <SelectItem value=".net">.net</SelectItem>
+                    <SelectItem value=".org">.org</SelectItem>
+                    <SelectItem value=".io">.io</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={priceRange} onValueChange={setPriceRange}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Any Price</SelectItem>
+                    <SelectItem value="0-1000">Under $1,000</SelectItem>
+                    <SelectItem value="1000-5000">$1,000 - $5,000</SelectItem>
+                    <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
+                    <SelectItem value="10000-999999">$10,000+</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={lengthRange} onValueChange={setLengthRange}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Domain Length" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Any Length</SelectItem>
+                    <SelectItem value="1-3">1-3 Characters</SelectItem>
+                    <SelectItem value="4-6">4-6 Characters</SelectItem>
+                    <SelectItem value="7-10">7-10 Characters</SelectItem>
+                    <SelectItem value="11-999">11+ Characters</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
               {domains.map((domain) => (
                 <Card 
@@ -140,6 +209,7 @@ const Domains = () => {
                 </Card>
               ))}
             </div>
+
             {totalPages > 1 && (
               <Pagination className="mt-8">
                 <PaginationContent>
