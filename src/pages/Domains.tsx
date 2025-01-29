@@ -6,6 +6,14 @@ import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Domain {
   id: string;
@@ -14,26 +22,36 @@ interface Domain {
   status: string;
 }
 
+const ITEMS_PER_PAGE = 12;
+
 const Domains = () => {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchDomains();
-  }, []);
+  }, [currentPage]);
 
   const fetchDomains = async () => {
     try {
+      const { data: totalCount } = await supabase
+        .from("domains")
+        .select("id", { count: "exact" });
+
       const { data, error } = await supabase
         .from("domains")
         .select("*")
         .order("status", { ascending: true })
-        .order("name");
+        .order("name")
+        .range((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE - 1);
 
       if (error) throw error;
 
       setDomains(data || []);
+      setTotalPages(Math.ceil((totalCount?.length || 0) / ITEMS_PER_PAGE));
     } catch (error: any) {
       toast({
         title: "Error",
@@ -47,6 +65,11 @@ const Domains = () => {
 
   const handleMakeOffer = (domain: Domain) => {
     window.location.href = `mailto:info@zenullari.com?subject=Offer for ${domain.name}`;
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -65,7 +88,7 @@ const Domains = () => {
                 </p>
               </CardContent>
             </Card>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
               {domains.map((domain) => (
                 <Card 
                   key={domain.id}
@@ -97,6 +120,48 @@ const Domains = () => {
                 </Card>
               ))}
             </div>
+            {totalPages > 1 && (
+              <Pagination className="mt-8">
+                <PaginationContent>
+                  {currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(currentPage - 1);
+                        }} 
+                      />
+                    </PaginationItem>
+                  )}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(page);
+                        }}
+                        isActive={currentPage === page}
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(currentPage + 1);
+                        }} 
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            )}
           </div>
         </div>
       </div>
