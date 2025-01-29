@@ -23,7 +23,14 @@ const App = () => {
             </div>
           }
         />
-        <Route path="/domains" element={<Domains />} />
+        <Route 
+          path="/domains" 
+          element={
+            <div className="min-h-screen flex flex-col bg-zenDark">
+              <Domains />
+            </div>
+          } 
+        />
         <Route path="/auth" element={<Auth />} />
         <Route path="/admin/domains" element={<AdminDomains />} />
         <Route path="/admin/offers" element={<AdminOffers />} />
