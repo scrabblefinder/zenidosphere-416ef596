@@ -4,11 +4,6 @@ const Hero = () => {
   return (
     <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          src="/lovable-uploads/0b3357e9-f995-405b-8cac-3be9b3a18599.png"
-          alt="New York City skyline"
-          className="w-full h-full object-cover"
-        />
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
       
