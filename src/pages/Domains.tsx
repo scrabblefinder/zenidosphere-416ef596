@@ -28,7 +28,7 @@ const Domains = () => {
       const { data, error } = await supabase
         .from("domains")
         .select("*")
-        .order("status", { ascending: true }) // This will put 'available' before 'sold'
+        .order("status", { ascending: true })
         .order("name");
 
       if (error) throw error;
@@ -76,9 +76,11 @@ const Domains = () => {
                 >
                   <CardContent className="p-6 flex flex-col items-center justify-between h-full">
                     <div className="text-2xl font-bold text-domainCardLight mb-4">{domain.name}</div>
-                    <div className="text-xl text-domainCardLight font-semibold mb-4">
-                      ${domain.price.toLocaleString()}
-                    </div>
+                    {domain.status !== 'sold' && (
+                      <div className="text-xl text-domainCardLight font-semibold mb-4">
+                        ${domain.price.toLocaleString()}
+                      </div>
+                    )}
                     <Button
                       onClick={() => handleMakeOffer(domain)}
                       className="w-full bg-domainCardLight hover:bg-domainCardLight/80 text-domainCard"
