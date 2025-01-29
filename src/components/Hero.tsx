@@ -1,20 +1,39 @@
+import { ArrowRight } from "lucide-react";
+
 const Hero = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-zenDark text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-zenPurple/20 to-transparent"></div>
+    <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0">
+        <img
+          src="/lovable-uploads/0b3357e9-f995-405b-8cac-3be9b3a18599.png"
+          alt="New York City skyline"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
+      
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold font-inter mb-6 animate-slideUp">
-            Creative Developer & Designer
+        <div className="max-w-4xl">
+          <p className="text-lg md:text-xl text-white mb-4 animate-fadeIn">
+            Acquire your premium domain name today!
+          </p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-slideUp">
+            <span className="text-[#5BB5CF]">Invest</span>{" "}
+            For The Future with
+            <br />
+            the Perfect Domain!
           </h1>
-          <p className="text-lg md:text-xl text-white/80 mb-8 animate-fadeIn">
-            Crafting digital experiences that leave lasting impressions
+          <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl animate-fadeIn">
+            With over 20 years of experience in the domain name industry, we are trusted
+            professionals dedicated to helping you secure the perfect domain name for
+            your needs
           </p>
           <a
-            href="#work"
-            className="inline-block bg-zenPurple text-white px-8 py-3 rounded-full font-medium hover:bg-zenPurple/90 transition-colors duration-300"
+            href="#contact"
+            className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-sm hover:bg-white/20 transition-colors duration-300"
           >
-            View Work
+            <span>GET STARTED</span>
+            <ArrowRight className="h-4 w-4" />
           </a>
         </div>
       </div>
