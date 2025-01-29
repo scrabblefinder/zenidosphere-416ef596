@@ -56,7 +56,7 @@ const Domains = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-4xl font-bold text-white mb-8 animate-fadeIn">
-              Premium Three Letter Domains For Sale
+              Premium Domain Names For Sale
             </h1>
             <Card className="bg-domainCard/50 border-domainCardLight/20 mb-8">
               <CardContent className="p-6">
