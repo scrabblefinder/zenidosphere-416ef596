@@ -99,13 +99,13 @@ const Domains = () => {
                 </p>
               </CardContent>
             </Card>
-            <div className="mb-8">
+            <div className="w-full mb-8">
               <Input
                 type="search"
                 placeholder="Search domains..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className="max-w-md bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
