@@ -187,7 +187,7 @@ const PremiumDomains = () => {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px] bg-white/95">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Make an Offer</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-black">Make an Offer</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -198,7 +198,7 @@ const PremiumDomains = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="bg-white border-gray-300"
+                  className="bg-white border-gray-300 text-black"
                   required
                 />
               </div>
@@ -209,7 +209,7 @@ const PremiumDomains = () => {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className="bg-white border-gray-300"
+                  className="bg-white border-gray-300 text-black"
                   required
                 />
               </div>
@@ -222,7 +222,7 @@ const PremiumDomains = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="bg-white border-gray-300"
+                className="bg-white border-gray-300 text-black"
                 required
               />
             </div>
@@ -234,7 +234,7 @@ const PremiumDomains = () => {
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="bg-white border-gray-300"
+                className="bg-white border-gray-300 text-black"
                 required
               />
             </div>
@@ -248,7 +248,7 @@ const PremiumDomains = () => {
                 step="0.01"
                 value={formData.amount}
                 onChange={handleInputChange}
-                className="bg-white border-gray-300"
+                className="bg-white border-gray-300 text-black"
                 required
               />
             </div>
