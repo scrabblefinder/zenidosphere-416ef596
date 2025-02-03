@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { Link } from "react-router-dom";
 
 interface Domain {
   id: string;
@@ -60,7 +61,7 @@ const PremiumDomains = () => {
         <h2 className="text-3xl font-bold text-white mb-8 text-center">
           Premium Domains For Sale
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {domains.map((domain) => (
             <Card 
               key={domain.id}
@@ -82,6 +83,15 @@ const PremiumDomains = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+        <div className="flex justify-center">
+          <Link to="/domains">
+            <Button 
+              className="bg-zenPurple hover:bg-zenPurple/80 text-white px-8 py-2 text-lg"
+            >
+              View More Domains
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
