@@ -95,6 +95,21 @@ const PremiumDomains = () => {
 
     setSubmitting(true);
     try {
+      // First, save the offer to the database
+      const { error: offerError } = await supabase
+        .from("offers")
+        .insert([
+          {
+            domain_id: selectedDomain.id,
+            email: formData.email,
+            amount: parseFloat(formData.amount),
+            message: `Offer from ${formData.name} ${formData.lastName}`,
+          },
+        ]);
+
+      if (offerError) throw offerError;
+
+      // Then, send the email notification
       const response = await supabase.functions.invoke("send-offer", {
         body: {
           ...formData,
@@ -170,57 +185,61 @@ const PremiumDomains = () => {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white/95">
           <DialogHeader>
-            <DialogTitle>Make an Offer</DialogTitle>
+            <DialogTitle className="text-xl font-bold">Make an Offer</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">First Name</Label>
+                <Label htmlFor="name" className="text-black">First Name</Label>
                 <Input
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
+                  className="bg-white border-gray-300"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName" className="text-black">Last Name</Label>
                 <Input
                   id="lastName"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleInputChange}
+                  className="bg-white border-gray-300"
                   required
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-black">Email</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                className="bg-white border-gray-300"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone" className="text-black">Phone Number</Label>
               <Input
                 id="phone"
                 name="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
+                className="bg-white border-gray-300"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="amount">Offer Amount (USD)</Label>
+              <Label htmlFor="amount" className="text-black">Offer Amount (USD)</Label>
               <Input
                 id="amount"
                 name="amount"
@@ -229,6 +248,7 @@ const PremiumDomains = () => {
                 step="0.01"
                 value={formData.amount}
                 onChange={handleInputChange}
+                className="bg-white border-gray-300"
                 required
               />
             </div>
@@ -237,10 +257,15 @@ const PremiumDomains = () => {
                 type="button"
                 variant="outline"
                 onClick={() => setIsModalOpen(false)}
+                className="bg-gray-200 hover:bg-gray-300 text-black"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={submitting}>
+              <Button 
+                type="submit" 
+                disabled={submitting}
+                className="bg-domainCard hover:bg-domainCard/80 text-white"
+              >
                 {submitting ? "Sending..." : "Submit Offer"}
               </Button>
             </div>
