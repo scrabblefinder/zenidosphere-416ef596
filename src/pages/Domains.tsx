@@ -224,9 +224,9 @@ const Domains = () => {
                     domain.status === 'sold' && "opacity-50"
                   )}
                 >
-                  <CardContent className="p-6 flex flex-col items-center justify-between h-full space-y-8">
+                  <CardContent className="p-6 flex flex-col items-center justify-between h-full min-h-[150px] space-y-8">
                     <div className={cn(
-                      "text-2xl font-bold text-domainCardLight"
+                      "text-xl font-bold text-domainCardLight text-center break-words w-full"
                     )}>
                       {domain.name}
                     </div>

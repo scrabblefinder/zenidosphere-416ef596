@@ -161,8 +161,8 @@ const PremiumDomains = () => {
               key={domain.id}
               className="bg-domainCard border-domainCardLight/20 hover:border-domainCardLight transition-colors duration-300"
             >
-              <CardContent className="p-6 flex flex-col items-center justify-between h-full">
-                <div className="text-xl font-bold text-domainCardLight mb-4">
+              <CardContent className="p-6 flex flex-col items-center justify-between h-full min-h-[150px]">
+                <div className="text-xl font-bold text-domainCardLight mb-4 text-center break-words w-full">
                   {domain.name}
                 </div>
                 <Button
