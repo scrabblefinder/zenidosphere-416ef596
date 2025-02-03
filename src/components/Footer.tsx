@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-[#d8e3e6]">
       {/* Contact Info Bar */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center">
           {/* Call Us */}
           <div className="flex items-center gap-4">
             <Phone className="h-8 w-8 text-[#126e82]" />
