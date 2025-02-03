@@ -7,6 +7,7 @@ import Domains from "./pages/Domains";
 import Auth from "./pages/Auth";
 import AdminDomains from "./pages/admin/AdminDomains";
 import AdminOffers from "./pages/admin/AdminOffers";
+import PremiumDomains from "./components/PremiumDomains";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <div className="min-h-screen flex flex-col bg-zenDark">
               <Navigation />
               <Hero />
+              <PremiumDomains />
               <Welcome />
               <Footer />
             </div>
