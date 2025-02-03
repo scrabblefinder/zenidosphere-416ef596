@@ -6,7 +6,7 @@ const Welcome = () => {
           <div className="relative">
             <div className="w-[70%] mx-auto">
               <img
-                src="https://www.zenullari.com/wp-content/uploads/2024/11/olgi-zenullari.jpg"
+                src="/lovable-uploads/73af1b10-2ec0-4833-9b71-a04e26b0f3b5.png"
                 alt="CEO Portrait"
                 className="w-full rounded-lg shadow-xl"
               />
