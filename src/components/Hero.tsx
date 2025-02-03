@@ -5,7 +5,7 @@ const Hero = () => {
     <section className="min-h-screen relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="/lovable-uploads/73af1b10-2ec0-4833-9b71-a04e26b0f3b5.png"
+          src="https://www.zenullari.com/wp-content/uploads/2024/11/empirestate-scaled.jpg"
           alt="Empire State Building"
           className="w-full h-full object-cover"
         />
