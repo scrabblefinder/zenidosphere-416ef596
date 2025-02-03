@@ -87,7 +87,7 @@ const PremiumDomains = () => {
         <div className="flex justify-center">
           <Link to="/domains">
             <Button 
-              className="bg-zenPurple hover:bg-zenPurple/80 text-white px-8 py-2 text-lg"
+              className="bg-domainCard hover:bg-domainCard/80 text-white px-8 py-2 text-lg"
             >
               View More Domains
             </Button>
