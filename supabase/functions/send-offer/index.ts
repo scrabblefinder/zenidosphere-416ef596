@@ -27,6 +27,15 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { name, lastName, email, phone, amount, domainName }: OfferEmailRequest = await req.json();
 
+    console.log("Sending email for domain offer:", {
+      domainName,
+      amount,
+      email,
+      name,
+      lastName,
+      phone,
+    });
+
     const emailResponse = await resend.emails.send({
       from: "Zenullari Domains <onboarding@resend.dev>",
       to: ["domains@zenullari.com"],
@@ -34,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
       html: `
         <h1>New Domain Offer Received</h1>
         <p><strong>Domain Name:</strong> ${domainName}</p>
-        <p><strong>Offer Amount:</strong> $${amount}</p>
+        <p><strong>Offer Amount:</strong> $${amount.toLocaleString()}</p>
         <h2>Contact Information:</h2>
         <p><strong>Name:</strong> ${name} ${lastName}</p>
         <p><strong>Email:</strong> ${email}</p>

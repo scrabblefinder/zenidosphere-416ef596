@@ -95,7 +95,7 @@ const PremiumDomains = () => {
 
     setSubmitting(true);
     try {
-      // First, save the offer to the database
+      console.log("Saving offer to database...");
       const { error: offerError } = await supabase
         .from("offers")
         .insert([
@@ -109,7 +109,7 @@ const PremiumDomains = () => {
 
       if (offerError) throw offerError;
 
-      // Then, send the email notification
+      console.log("Sending email notification...");
       const response = await supabase.functions.invoke("send-offer", {
         body: {
           ...formData,
@@ -120,12 +120,17 @@ const PremiumDomains = () => {
 
       if (response.error) throw new Error(response.error.message);
 
+      console.log("Email sent successfully:", response.data);
+
       toast({
-        title: "Success",
-        description: "Your offer has been sent successfully!",
+        title: "Success!",
+        description: "Your offer has been sent successfully. We'll be in touch soon!",
+        variant: "default",
       });
+      
       setIsModalOpen(false);
     } catch (error: any) {
+      console.error("Error submitting offer:", error);
       toast({
         title: "Error",
         description: error.message,
