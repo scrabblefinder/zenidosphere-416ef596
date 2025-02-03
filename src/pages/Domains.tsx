@@ -132,9 +132,9 @@ const Domains = () => {
                     domain.status === 'sold' && "opacity-50"
                   )}
                 >
-                  <CardContent className="p-6 flex flex-col items-center justify-between h-full">
+                  <CardContent className="p-6 flex flex-col items-center justify-between h-full space-y-8">
                     <div className={cn(
-                      "text-2xl font-bold text-domainCardLight mb-auto mt-auto"
+                      "text-2xl font-bold text-domainCardLight"
                     )}>
                       {domain.name}
                     </div>
