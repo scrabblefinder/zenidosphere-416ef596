@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Domain {
   id: string;
@@ -12,9 +20,27 @@ interface Domain {
   status: string;
 }
 
+interface OfferFormData {
+  name: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  amount: string;
+}
+
 const PremiumDomains = () => {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDomain, setSelectedDomain] = useState<Domain | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState<OfferFormData>({
+    name: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    amount: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -44,7 +70,55 @@ const PremiumDomains = () => {
   };
 
   const handleMakeOffer = (domain: Domain) => {
-    window.location.href = `mailto:info@zenullari.com?subject=Offer for ${domain.name}`;
+    setSelectedDomain(domain);
+    setIsModalOpen(true);
+    setFormData({
+      name: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      amount: domain.price.toString(),
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedDomain) return;
+
+    setSubmitting(true);
+    try {
+      const response = await supabase.functions.invoke("send-offer", {
+        body: {
+          ...formData,
+          amount: parseFloat(formData.amount),
+          domainName: selectedDomain.name,
+        },
+      });
+
+      if (response.error) throw new Error(response.error.message);
+
+      toast({
+        title: "Success",
+        description: "Your offer has been sent successfully!",
+      });
+      setIsModalOpen(false);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -94,6 +168,85 @@ const PremiumDomains = () => {
           </Link>
         </div>
       </div>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Make an Offer</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">First Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="amount">Offer Amount (USD)</Label>
+              <Input
+                id="amount"
+                name="amount"
+                type="number"
+                min="0"
+                step="0.01"
+                value={formData.amount}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={submitting}>
+                {submitting ? "Sending..." : "Submit Offer"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

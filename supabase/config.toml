@@ -1,1 +1,4 @@
 project_id = "edvoikevlwdeugkwkhyb"
+
+[functions.send-offer]
+verify_jwt = false
