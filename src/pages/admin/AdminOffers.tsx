@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { Trash2 } from "lucide-react";
 
 interface Offer {
   id: string;
@@ -92,6 +93,29 @@ const AdminOffers = () => {
     }
   };
 
+  const handleDeleteOffer = async (offerId: string) => {
+    try {
+      const { error } = await supabase
+        .from("offers")
+        .delete()
+        .eq("id", offerId);
+
+      if (error) throw error;
+
+      fetchOffers();
+      toast({
+        title: "Success",
+        description: "Offer deleted successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zenDark">
       <Navigation />
@@ -134,26 +158,35 @@ const AdminOffers = () => {
                     {new Date(offer.created_at).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    {offer.status === "pending" && (
-                      <div className="space-x-2">
-                        <Button
-                          onClick={() =>
-                            handleUpdateOfferStatus(offer.id, "accepted")
-                          }
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          onClick={() =>
-                            handleUpdateOfferStatus(offer.id, "rejected")
-                          }
-                          variant="destructive"
-                        >
-                          Reject
-                        </Button>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {offer.status === "pending" && (
+                        <>
+                          <Button
+                            onClick={() =>
+                              handleUpdateOfferStatus(offer.id, "accepted")
+                            }
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            onClick={() =>
+                              handleUpdateOfferStatus(offer.id, "rejected")
+                            }
+                            variant="destructive"
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      )}
+                      <Button
+                        onClick={() => handleDeleteOffer(offer.id)}
+                        variant="ghost"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-100/10"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
