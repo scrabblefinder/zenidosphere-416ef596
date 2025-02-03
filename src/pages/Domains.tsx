@@ -134,16 +134,10 @@ const Domains = () => {
                 >
                   <CardContent className="p-6 flex flex-col items-center justify-between h-full">
                     <div className={cn(
-                      "text-2xl font-bold text-domainCardLight",
-                      domain.status === 'sold' ? "mb-auto mt-auto" : "mb-4"
+                      "text-2xl font-bold text-domainCardLight mb-auto mt-auto"
                     )}>
                       {domain.name}
                     </div>
-                    {domain.status !== 'sold' && (
-                      <div className="text-xl text-domainCardLight font-semibold mb-4">
-                        ${domain.price.toLocaleString()}
-                      </div>
-                    )}
                     <Button
                       onClick={() => handleMakeOffer(domain)}
                       className="w-full bg-domainCardLight hover:bg-domainCardLight/80 text-domainCard"
