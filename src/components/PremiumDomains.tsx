@@ -165,9 +165,6 @@ const PremiumDomains = () => {
                 <div className="text-xl font-bold text-domainCardLight mb-4">
                   {domain.name}
                 </div>
-                <div className="text-lg text-domainCardLight font-semibold mb-4">
-                  ${domain.price.toLocaleString()}
-                </div>
                 <Button
                   onClick={() => handleMakeOffer(domain)}
                   className="w-full bg-domainCardLight hover:bg-domainCardLight/80 text-domainCard"
