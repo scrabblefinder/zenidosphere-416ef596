@@ -38,12 +38,21 @@ const Footer = () => {
       {/* Additional Footer Content */}
       <div className="border-t border-gray-300">
         <div className="container mx-auto px-4 py-8">
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-[#126e82]">ZENULLARI</h2>
+          <div className="space-y-4 text-center">
+            <h2 className="text-2xl font-bold text-[#126e82]">ZENULLARI.com</h2>
             <p className="text-sm leading-relaxed text-gray-600">
               Your go-to resource for premium domain name acquisition, appraisals, and expert insights.
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Copyright Notice */}
+      <div className="border-t border-gray-300 py-4">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-sm text-gray-600">
+            © {new Date().getFullYear()} ZENULLARI.com. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
