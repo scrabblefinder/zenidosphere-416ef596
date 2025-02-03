@@ -46,7 +46,7 @@ const Navigation = () => {
         <div className="flex items-center space-x-8">
           <div className="hidden md:flex space-x-8">
             <Link to="/" className="text-white hover:text-white/80 transition-colors duration-300">HOME</Link>
-            <Link to="/domains" className="text-white hover:text-white/80 transition-colors duration-300">DOMAINS FOR SALE</Link>
+            <Link to="/domains-for-sale" className="text-white hover:text-white/80 transition-colors duration-300">DOMAINS FOR SALE</Link>
             {isLoggedIn && (
               <Link to="/admin/domains" className="text-white hover:text-white/80 transition-colors duration-300">ADMIN</Link>
             )}

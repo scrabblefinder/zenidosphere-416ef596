@@ -25,7 +25,7 @@ const App = () => {
             </div>
           }
         />
-        <Route path="/domains" element={<Domains />} />
+        <Route path="/domains-for-sale" element={<Domains />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/admin/domains" element={<AdminDomains />} />
         <Route path="/admin/offers" element={<AdminOffers />} />
