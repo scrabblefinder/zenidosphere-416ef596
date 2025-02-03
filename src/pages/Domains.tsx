@@ -31,6 +31,7 @@ const Domains = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [availableCount, setAvailableCount] = useState(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -46,6 +47,15 @@ const Domains = () => {
       if (searchQuery) {
         query = query.ilike('name', `%${searchQuery}%`);
       }
+
+      // Get total count of available domains
+      const { data: availableDomains, error: countError } = await supabase
+        .from("domains")
+        .select("id")
+        .eq("status", "available");
+
+      if (countError) throw countError;
+      setAvailableCount(availableDomains?.length || 0);
 
       const { data: totalCount } = await query;
 
@@ -80,7 +90,7 @@ const Domains = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
 
   return (
@@ -89,9 +99,14 @@ const Domains = () => {
       <div className="pt-32 pb-16 flex-grow">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-4xl font-bold text-white mb-8 animate-fadeIn">
-              Premium Domain Names For Sale
-            </h1>
+            <div className="flex justify-between items-center mb-8">
+              <h1 className="text-4xl font-bold text-white animate-fadeIn">
+                Premium Domain Names For Sale
+              </h1>
+              <div className="text-domainCardLight text-lg">
+                {availableCount} Domains Available
+              </div>
+            </div>
             <Card className="bg-domainCard/50 border-domainCardLight/20 mb-8">
               <CardContent className="p-6">
                 <p className="text-domainCardLight leading-relaxed animate-slideUp">
