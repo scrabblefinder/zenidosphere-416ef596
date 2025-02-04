@@ -1,23 +1,32 @@
+
 import { Phone } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     checkUser();
+    
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
+    });
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const checkUser = async () => {
@@ -27,8 +36,6 @@ const Navigation = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setIsLoggedIn(false);
-    navigate("/");
   };
 
   return (
@@ -55,7 +62,7 @@ const Navigation = () => {
             <Phone className="h-4 w-4" />
             <span>(+1) 212 444 3018</span>
           </a>
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <Button
               onClick={handleLogout}
               variant="outline"
@@ -63,6 +70,15 @@ const Navigation = () => {
             >
               Logout
             </Button>
+          ) : (
+            <Link to="/auth">
+              <Button
+                variant="outline"
+                className="text-white border-white hover:bg-white/10"
+              >
+                Login
+              </Button>
+            </Link>
           )}
         </div>
       </div>
