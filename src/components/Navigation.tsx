@@ -1,9 +1,7 @@
-
 import { Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,10 +32,6 @@ const Navigation = () => {
     setIsLoggedIn(!!session);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-  };
-
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 py-6 ${
@@ -62,24 +56,6 @@ const Navigation = () => {
             <Phone className="h-4 w-4" />
             <span>(+1) 212 444 3018</span>
           </a>
-          {isLoggedIn ? (
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="text-white border-white hover:bg-white/10"
-            >
-              Logout
-            </Button>
-          ) : (
-            <Link to="/auth">
-              <Button
-                variant="outline"
-                className="text-white border-white hover:bg-white/10"
-              >
-                Login
-              </Button>
-            </Link>
-          )}
         </div>
       </div>
     </nav>
